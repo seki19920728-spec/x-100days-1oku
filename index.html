@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>
+<title>100日で1億 企画書</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 縦に読む企画書。案ごとに「Xプロフィールの見た目」と「設計メモ」を横並び、スマホでは縦積み */
+:root{
+  --bg:#eef1f3; --surface:#ffffff; --ink:#15202b; --muted:#5b6b78; --line:#d5dde3;
+  --accent:#0f5d4f;   /* 帳簿の緑 */
+  --up:#d1253a;       /* 日本式：プラスは赤 */
+  --down:#1f5fbf;     /* マイナスは青 */
+  --chip:#e3ece9;
+  --f-display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1419; --surface:#161f27; --ink:#e6edf2; --muted:#93a4b1; --line:#2a3844;
+  --accent:#4fc2a8; --up:#ff6b7a; --down:#6ea8ff; --chip:#1d2d2a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1419; --surface:#161f27; --ink:#e6edf2; --muted:#93a4b1; --line:#2a3844;
+  --accent:#4fc2a8; --up:#ff6b7a; --down:#6ea8ff; --chip:#1d2d2a; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 80px}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:clamp(30px,5vw,48px);font-weight:800}
+h2{font-size:clamp(22px,3.2vw,30px);font-weight:700}
+h3{font-size:17px;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}
+.lead{color:var(--muted);max-width:44em}
+.up{color:var(--up)} .down{color:var(--down)}
+
+/* hero */
+.hero{display:flex;flex-direction:column;gap:18px;border-bottom:1px solid var(--line);padding-bottom:36px}
+.counter{display:flex;flex-wrap:wrap;gap:28px;margin-top:8px}
+.counter div{display:flex;flex-direction:column}
+.counter b{font-family:var(--f-mono);font-size:28px;font-weight:600}
+.counter span{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.core{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.core div{border-top:2px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:4px}
+.core div p{color:var(--muted);font-size:14px}
+
+/* concept */
+.concept{display:flex;flex-direction:column;gap:22px}
+.concept-head{display:flex;flex-direction:column;gap:8px}
+.tag{display:inline-block;font-size:12px;background:var(--chip);color:var(--accent);padding:2px 10px;border-radius:4px;font-weight:700;width:fit-content}
+.grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* X風プロフィール */
+.phone{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.header-img{height:120px;position:relative;display:flex;align-items:flex-end;justify-content:flex-end;padding:10px 14px;color:#e9f0ec;font-family:var(--f-mono);font-size:12px}
+.h1img{background:linear-gradient(160deg,#1b2a26,#0a1210)}
+.h2img{background:#101418}
+.h3img{background:repeating-linear-gradient(0deg,#f3f1e8 0 23px,#c9d3cf 23px 24px);color:#2a3a35}
+.bar{position:absolute;left:14px;right:14px;top:18px;display:flex;flex-direction:column;gap:6px;font-size:11px}
+.bar .track{height:10px;background:#2b3338;border-radius:2px;overflow:hidden}
+.bar .fill{height:100%;background:#d1253a}
+.avatar{width:72px;height:72px;border-radius:50%;border:4px solid var(--surface);margin:-36px 0 0 14px;position:relative;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:26px}
+.a1{background:#0f5d4f;color:#fff}.a2{background:#15202b;color:#ff6b7a;font-family:var(--f-mono);font-size:18px}.a3{background:#f3f1e8;color:#15202b}
+.prof{padding:8px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.pname{font-weight:700;font-size:17px}
+.handle{color:var(--muted);font-size:13px;font-family:var(--f-mono)}
+.bio{font-size:14px;white-space:pre-line;line-height:1.6}
+.meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.stats{font-size:13px;color:var(--muted)} .stats b{color:var(--ink)}
+.tweets{border-top:1px solid var(--line)}
+.tw{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.tw:last-child{border-bottom:0}
+.tw .who{font-size:13px;color:var(--muted)} .tw .who b{color:var(--ink)}
+.tw .body{font-size:14px;white-space:pre-line;line-height:1.6;font-family:var(--f-body)}
+.tw .body .num{font-size:13.5px}
+.pin{font-size:11px;color:var(--muted);font-weight:700}
+
+/* 設計メモ */
+.notes{display:flex;flex-direction:column;gap:18px;min-width:0}
+dl{margin:0;display:grid;grid-template-columns:7.5em 1fr;gap:10px 16px}
+dt{font-weight:700;font-size:13px;color:var(--muted);padding-top:2px}
+dd{margin:0;min-width:0}
+@media (max-width:480px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:10px}}
+.arc{border-left:2px solid var(--line);padding-left:16px;display:flex;flex-direction:column;gap:8px}
+.arc div{font-size:14px} .arc b{font-family:var(--f-mono);color:var(--accent);margin-right:8px}
+.pros{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.pros{grid-template-columns:1fr}}
+.pros div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:14px}
+.pros h3{font-size:13px;margin-bottom:4px}
+
+/* 比較表 */
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);letter-spacing:.06em;font-weight:700}
+tr:last-child td{border-bottom:0}
+.rec{background:var(--chip)}
+
+/* 注意 */
+.caution{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--up);border-radius:6px;padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.caution ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.rules div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--surface);font-size:14px}
+.rules h3{margin-bottom:4px}
+hr{border:0;border-top:1px solid var(--line);margin:0}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="eyebrow">X Account Concept / 2026.11</span>
+  <h1>100日後に、1億円。</h1>
+  <p class="lead">元ヘッジファンドの人間が、5年の隠居から戻ってきて、毎日の売買を<strong>事前に</strong>淡々と書くだけのアカウント。1投稿だけ見ても面白くない。でも遡ると「この人、毎回当ててないか？」と気づく。その<strong>“遡ったときの気味悪さ”</strong>で伸ばす企画です。</p>
+  <div class="counter">
+    <div><b class="num">100</b><span>日間（営業日）</span></div>
+    <div><b class="num up">+1億円</b><span>目標利益</span></div>
+    <div><b class="num">≒100万</b><span>1日あたり平均</span></div>
+    <div><b class="num">2</b><span>投稿／日（予告＋結果）</span></div>
+  </div>
+</header>
+
+<section class="core">
+  <div><h3>淡々さが武器</h3><p>感情・解説・煽りを書かない。数字と銘柄だけ。だから“謎”が残る。</p></div>
+  <div><h3>事前予告が証拠</h3><p>後出しの勝ち報告は誰も信じない。寄付前に書くから、遡るほど信用が積み上がる。</p></div>
+  <div><h3>カウントダウンが物語</h3><p>ワニと同じで「あと何日」が毎日動く。1日ごとの投稿が連載の1話になる。</p></div>
+</section>
+
+<!-- ============ 案1 ============ -->
+<section class="concept">
+  <div class="concept-head">
+    <span class="tag">案1 ／ 隠居の日誌型</span>
+    <h2>「隠居、市場に戻る。」</h2>
+    <p class="lead">人物の“格”で引っ張る案。理由も解説も書かず、静かに当て続ける。たまに一行だけ過去を匂わせる。一番“謎の人”になりやすい。</p>
+  </div>
+  <div class="grid">
+    <div class="phone">
+      <div class="header-img h1img">Day 001 / 100</div>
+      <div class="avatar a1">隠</div>
+      <div class="prof">
+        <div class="pname">隠居｜100日で1億</div>
+        <div class="handle">@inkyo_100days</div>
+        <div class="bio">5年ぶりに市場に戻りました。暇つぶしです。
+毎朝、その日やることだけ書きます。
+理由は書きません。結果は毎日出します。
+100営業日で、利益1億円。</div>
+        <div class="meta"><span>東京</span><span>2026年11月から記録</span></div>
+        <div class="stats"><b>0</b> フォロー　<b>—</b> フォロワー</div>
+      </div>
+      <div class="tweets">
+        <div class="tw"><span class="pin">固定</span><div class="who"><b>隠居｜100日で1億</b> · Day 0</div>
+<div class="body">5年ぶりにやります。
+ルールは3つ。
+・寄付前に書く
+・書いた通りにやる
+・負けも全部出す
+100日後に+1億円。見ていてください。</div></div>
+        <div class="tw"><div class="who"><b>隠居｜100日で1億</b> · 8:41</div>
+<div class="body">Day 23
+<span class="num">買　7203 トヨタ　3,000株　寄付</span>
+<span class="num">売　8035 東エレク　全部　前引け</span></div></div>
+        <div class="tw"><div class="who"><b>隠居｜100日で1億</b> · 15:32</div>
+<div class="body">Day 23 結果
+<span class="num">本日　<span class="up">+1,840,000</span></span>
+<span class="num">累計　<span class="up">+24,120,000</span></span>
+残り77日。</div></div>
+        <div class="tw"><div class="who"><b>隠居｜100日で1億</b> · 21:10</div>
+<div class="body">昔はこの10倍の金額を、1日で動かしていました。</div></div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <dl>
+        <dt>キャラ</dt><dd>多くを語らない元プロ。敬語・短文。絵文字なし。返信はしない（たまに「はい」だけ）。</dd>
+        <dt>毎日の投稿</dt><dd><span class="mono">8:40</span> 予告（銘柄・株数・タイミング）／<span class="mono">15:30</span> 結果（本日・累計・残り日数）。週1で夜に“一行だけの独り言”。</dd>
+        <dt>元手</dt><dd>あえて非公開。「1億の利益」だけ見せて、元手を想像させるのが謎の源。</dd>
+        <dt>伸びる瞬間</dt><dd>誰かが「この人、予告通りに23日連続で…」とまとめ・引用した時。遡り需要を作るため、固定ポストに<strong>全履歴スレッド</strong>を毎日追記する。</dd>
+      </dl>
+      <div class="arc">
+        <div><b>Day 1</b>予告と結果だけ。誰も見ていない状態から始める（これも記録になる）</div>
+        <div><b>Day 10</b>初めての独り言。「手が鈍っていない」</div>
+        <div><b>Day 30〜40</b>大きな負けを一度、淡々と出す。信用が一段上がる</div>
+        <div><b>Day 50</b>折り返し。累計と残りを図にした1枚画像</div>
+        <div><b>Day 100</b>達成でも未達でも、最後は一行。「では、また5年後に。」</div>
+      </div>
+      <div class="pros">
+        <div><h3>強み</h3>世界観が一番強い。真似されにくい。ファンが「考察」を始める。</div>
+        <div><h3>弱み</h3>序盤が地味で、最初の1か月は伸びにくい。外部からの“発見”待ち。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ 案2 ============ -->
+<section class="concept">
+  <div class="concept-head">
+    <span class="tag">案2 ／ カウントダウン型</span>
+    <h2>「1億まで、あと◯日。」</h2>
+    <p class="lead">ワニに一番近い案。名前とヘッダーそのものがカウンターで、毎日数字が書き換わる。プロフィールを開いた瞬間に“今どこまで来ているか”がわかる。</p>
+  </div>
+  <div class="grid">
+    <div class="phone">
+      <div class="header-img h2img">
+        <div class="bar"><span class="mono">PROGRESS ¥31,500,000 / ¥100,000,000</span><div class="track"><div class="fill" style="width:31.5%"></div></div></div>
+        DAY 038 / 100
+      </div>
+      <div class="avatar a2">-62</div>
+      <div class="prof">
+        <div class="pname">あと62日｜残り6,850万</div>
+        <div class="handle">@oku_countdown</div>
+        <div class="bio">元HF。5年隠居して、暇になったので戻ってきた。
+元手1億 → 100営業日で利益+1億を目指す記録。
+毎朝8:40に今日の売買を予告。15:30に結果。
+名前の数字は毎日更新されます。</div>
+        <div class="meta"><span>Day 38 / 100</span><span>勝率 64%</span></div>
+        <div class="stats"><b>0</b> フォロー　<b>—</b> フォロワー</div>
+      </div>
+      <div class="tweets">
+        <div class="tw"><div class="who"><b>あと62日｜残り6,850万</b> · 15:31</div>
+<div class="body">Day 38 終了
+<span class="num">本日　<span class="up">+2,310,000</span></span>
+<span class="num">累計　<span class="up">+31,500,000</span></span>
+<span class="num">▓▓▓░░░░░░░ 31.5%</span>
+あと62日で、6,850万。</div></div>
+        <div class="tw"><div class="who"><b>あと63日｜残り7,081万</b> · 15:30</div>
+<div class="body">Day 37 終了
+<span class="num">本日　<span class="down">−1,120,000</span></span>
+<span class="num">累計　<span class="up">+29,190,000</span></span>
+負けました。明日も書きます。</div></div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <dl>
+        <dt>キャラ</dt><dd>人物より“数字そのもの”が主役。本人の語りは最小限。</dd>
+        <dt>毎日の更新</dt><dd>①名前の「あと◯日｜残り◯万」②アイコンの残り日数 ③ヘッダーの進捗バー。<strong>プロフィール自体が毎日更新される</strong>のが一番の見どころ。</dd>
+        <dt>元手</dt><dd>公開する（例：1億）。「+100%を100日で」という難しさが伝わり、勝ってる・負けてるが一目でわかる。</dd>
+        <dt>伸びる瞬間</dt><dd>マイナスの日。進捗バーが戻る、残り金額が増える。“ワニ的な不穏さ”で引用が増える。</dd>
+      </dl>
+      <div class="arc">
+        <div><b>Day 1</b>バー0%。「あと100日｜残り1億」から始める</div>
+        <div><b>Day 25</b>4分の1地点。ペースより上か下かを1行で</div>
+        <div><b>Day 50</b>折り返し。ペース線とのズレをグラフで</div>
+        <div><b>Day 90〜</b>残り10日。毎日「あと◯万」が最大の注目点になる</div>
+        <div><b>Day 100</b>バーが100%に届くか。届かなければその差額で終わる</div>
+      </div>
+      <div class="pros">
+        <div><h3>強み</h3>ルールが一瞬で伝わる。初見でも追いかけたくなる。毎日の画像化がしやすい。</div>
+        <div><h3>弱み</h3>名前・画像の毎日更新が手間。元手を出すので“謎感”は案1より弱い。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ 案3 ============ -->
+<section class="concept">
+  <div class="concept-head">
+    <span class="tag">案3 ／ 予告台帳型</span>
+    <h2>「答え合わせは、あとで。」</h2>
+    <p class="lead">人の顔を消して“台帳”になりきる案。前夜に予告、翌日の結果は書かない。答え合わせは見た人がやる。結果は毎週末に表でまとめて出すだけ。</p>
+  </div>
+  <div class="grid">
+    <div class="phone">
+      <div class="header-img h3img">LEDGER No.041</div>
+      <div class="avatar a3">記</div>
+      <div class="prof">
+        <div class="pname">記録係｜100日1億</div>
+        <div class="handle">@ledger_100</div>
+        <div class="bio">前の晩に、翌日の売買を書く台帳です。
+答え合わせはご自由に。
+週末に、損益表をまとめて出します。
+書き手については書きません。</div>
+        <div class="meta"><span>予告 41件</span><span>集計：毎週土曜</span></div>
+        <div class="stats"><b>0</b> フォロー　<b>—</b> フォロワー</div>
+      </div>
+      <div class="tweets">
+        <div class="tw"><div class="who"><b>記録係｜100日1億</b> · 22:00</div>
+<div class="body"><span class="num">No.041（11/27）</span>
+<span class="num">09:00　買　6857　2,000株</span>
+<span class="num">14:50　売　6857　全部</span></div></div>
+        <div class="tw"><div class="who"><b>記録係｜100日1億</b> · 土 10:00</div>
+<div class="body">第8週の集計
+<span class="num">予告 5件／実行 5件</span>
+<span class="num">週間　<span class="up">+6,420,000</span></span>
+<span class="num">累計　<span class="up">+38,900,000</span></span>
+（約定画面は画像4枚）</div></div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <dl>
+        <dt>キャラ</dt><dd>人物を出さない。経歴も書かない。「書き手については書きません」が最大の謎。経歴は<strong>他人が推測して勝手に広める</strong>形にする。</dd>
+        <dt>毎日の投稿</dt><dd><span class="mono">22:00</span> 翌日の予告を1本だけ。日中は無言。結果は週1でまとめる。</dd>
+        <dt>元手</dt><dd>非公開。週次の約定画面（金額部分は必要に応じて隠す）で信用を取る。</dd>
+        <dt>伸びる瞬間</dt><dd>フォロワーが自分で答え合わせして「当たってる」と引用した時。ファンが“検証班”になる。</dd>
+      </dl>
+      <div class="arc">
+        <div><b>No.001</b>最初の予告。説明なし</div>
+        <div><b>第4週</b>初めての集計表。勝率・損益だけ</div>
+        <div><b>第10週</b>検証してくれた人の引用を1件だけリポスト</div>
+        <div><b>No.100</b>最後の予告と、100件すべての表を1枚で</div>
+      </div>
+      <div class="pros">
+        <div><h3>強み</h3>投稿は1日1本で最も楽。謎感は最強。フォロワー参加型になる。</div>
+        <div><h3>弱み</h3>「元HFの凄い人」という要素が見えにくい。ストーリー性は案1・2より弱い。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="concept">
+  <div class="concept-head">
+    <span class="eyebrow">Compare</span>
+    <h2>3案の比較と、おすすめ</h2>
+  </div>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th></th><th>案1 隠居の日誌</th><th>案2 カウントダウン</th><th>案3 予告台帳</th></tr></thead>
+      <tbody>
+        <tr><td>謎の人感</td><td>◎</td><td>△</td><td>◎</td></tr>
+        <tr><td>初見でのわかりやすさ</td><td>○</td><td>◎</td><td>△</td></tr>
+        <tr><td>毎日の手間</td><td>2投稿</td><td>2投稿＋名前・画像更新</td><td>1投稿＋週1集計</td></tr>
+        <tr><td>“遡ると凄い”の強さ</td><td>◎</td><td>○</td><td>◎</td></tr>
+        <tr><td>元手</td><td>非公開</td><td>公開</td><td>非公開</td></tr>
+        <tr class="rec"><td><strong>おすすめ</strong></td><td colspan="3"><strong>案1をベースに、案2の「名前にカウンター」だけ足す。</strong>　例：名前「隠居｜あと77日」。謎の人感を残したまま、プロフィールを開くたびに進んでいるのがわかる。元手は出さない。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="concept">
+  <div class="concept-head">
+    <span class="eyebrow">Rules</span>
+    <h2>運用ルール（どの案でも共通）</h2>
+  </div>
+  <div class="rules">
+    <div><h3>予告は寄付前に固定</h3>8:40までに出す。編集・削除は一切しない。消すと全部の信用が消える。</div>
+    <div><h3>負けも同じ温度で出す</h3>勝った日と負けた日の文面を変えない。これが“淡々”の正体。</div>
+    <div><h3>証拠は週1で</h3>約定履歴・損益画面のスクショを週末に。口座番号など個人情報は必ず隠す。</div>
+    <div><h3>理由は書かない</h3>「なぜ買ったの？」には答えない。答えると普通の投資アカウントになる。</div>
+    <div><h3>全履歴を1か所に</h3>固定ポストのスレッドに毎日追記。遡る人のための“入口”を用意する。</div>
+    <div><h3>投稿時刻を毎日同じに</h3>8:40と15:30。時刻のブレなさも“プロっぽさ”の演出になる。</div>
+  </div>
+</section>
+
+<section class="caution">
+  <h2>始める前に確認しておくこと</h2>
+  <ul>
+    <li><strong>「買え」とは言わない。</strong>自分の売買の記録に留める。銘柄を勧めたり、有料サロン・有料noteで売買情報を売ると、投資助言業の登録が必要になる可能性があります。</li>
+    <li><strong>予告した銘柄で、上がったところを売り抜けない。</strong>影響力がついてから「買います」と書いて自分は売る、は相場操縦や風説の流布として摘発例があります。小型株・低流動性の銘柄は避け、予告した通りに執行するのが安全です。</li>
+    <li><strong>経歴は事実の範囲で。</strong>実在するファンド名、運用額、実績の数字など、確かめられると困る具体的な肩書きは書かない。案3のように「書かない」ことで謎を作るほうが安全で、効果も高いです。</li>
+    <li><strong>数字は本物だけ。</strong>一度でも盛った数字が見つかると、この企画は成立しなくなります。</li>
+  </ul>
+  <p class="lead" style="font-size:13px">※法律の判断は専門家に確認してください。ここに書いたのは企画上の注意点です。</p>
+</section>
+
+</div>
+
+</body></html>
